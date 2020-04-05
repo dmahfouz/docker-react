@@ -74,7 +74,7 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 
 ## Issues
 
-### 71. Windows not detecting changes
+## 71. Windows not detecting changes
 
 -----------------------------------------
 
@@ -88,7 +88,7 @@ If you are running on **Windows, please read this**: Create-React-App has some i
 
 For more on why this is required, you can check out: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-start-doesn-t-detect-changes
 
-### 73. Windows Home - ENOENT: no such file or directory, open '/app/package.json
+## 73. Windows Home - ENOENT: no such file or directory, open '/app/package.json
 
 -----------------------------------------
 
@@ -104,7 +104,7 @@ https://www.virtualbox.org/wiki/Downloads
 
 If you are still having trouble after making the upgrade please verify that you ran `docker-compose down` to destroy the old volumes and then `docker-compose up --build` again. Also make sure that your project files are located in C:\Users and not on a remote or external drive.
 
-### 74. Bookmarking Volumes - Specific Commands for Windows
+## 74. Bookmarking Volumes - Specific Commands for Windows
 
 -----------------------------------------
 
@@ -125,7 +125,10 @@ Make sure you replace CONTAINER_ID with your actual container. Do note, that dep
 **If all else fails, please remember that you can just write out the full path of your present working directory instead of using the pwd variable.**
 
 ## 76. React App Exited With Code 0
-**4-1-2020**
+
+-----------------------------------------
+
+### **4-1-2020**
 
 Recently, a bug was introduced with the latest Create React App version that is causing the React app to exit when starting with Docker Compose.
 
@@ -144,3 +147,31 @@ https://github.com/facebook/create-react-app/issues/8688
 
 https://stackoverflow.com/questions/60790696/react-scripts-start-exiting-in-docker-foreground-cmd
 
+## 93. Fix for Failing Travis Builds
+
+In the upcoming lecture we will be adding a script to our .travis.yml file. Due to a change in how the Jest library works with Create React App, we need to make a small modification:
+```yaml
+script:
+  - docker run USERNAME/docker-react npm run test -- --coverage
+```
+
+instead should be:
+
+```yaml
+script:
+  - docker run -e CI=true USERNAME/docker-react npm run test
+```
+
+You can read up on the CI=true variable here:
+
+https://facebook.github.io/create-react-app/docs/running-tests#linux-macos-bash
+
+and enviornment variables in Docker here:
+
+https://docs.docker.com/engine/reference/run/#env-environment-variables
+
+Additionally, you may want to set the following property if your travis build fails with “rakefile not found” by adding to the top of your .travis.yml file:
+
+```yaml
+language: generic
+```
